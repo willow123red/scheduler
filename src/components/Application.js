@@ -5,18 +5,62 @@ import DayList from "components/DayList";
 import "components/Application.scss";
 import "components/Appointment";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 
 export default function Application(props) {
   const [state, setState] = useState({
-    day: "Monday",
+    day: "Tuesday",
     days: [],
     appointments: {},
     interviewers: {}
   });
 
   const appointments = getAppointmentsForDay(state, state.day)
+  const interviewers = getInterviewersForDay(state, state.day)
+  
+  const bookInterview = function (id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState({...state, appointments});
+    
+    const url = (`/api/appointments/` + id);
+    const data = {interview}    
+    return (
+      axios.put(
+        url,
+        data
+      )
+    );
+  }
+
+  const cancelInterview = function (id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState({...state, appointments});
+
+    const url = (`/api/appointments/` + id);
+    const data = {interview}
+    return (
+      axios.delete(
+        url,
+        data
+      )
+    );
+  }
+
   const setDay = day => setState({ ...state, day });
 
   useEffect(() => {
@@ -53,8 +97,12 @@ export default function Application(props) {
           return (
             <Appointment
               key={appointment.id}
-              {...appointment}
+              id={appointment.id}
+              time={appointment.time}
               interview={interview}
+              interviewers={interviewers}
+              bookInterview={bookInterview}
+              cancelInterview={cancelInterview}
             />
           );
         })}
