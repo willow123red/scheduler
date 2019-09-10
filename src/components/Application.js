@@ -1,5 +1,4 @@
 import React from "react";
-
 import DayList from "components/DayList";
 import "components/Application.scss";
 import "components/Appointment";
@@ -35,7 +34,6 @@ export default function Application(props) {
       );
     }
   );
-
   return (
     <main className="layout">
       <section className="sidebar">
