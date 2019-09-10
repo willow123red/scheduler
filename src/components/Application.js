@@ -30,7 +30,7 @@ export default function Application(props) {
     };
     setState({...state, appointments});
     
-    const url = (`/api/appointments/` + id);
+    const url = ("/api/appointments/" + id);
     const data = {interview}    
     return (
       axios.put(
@@ -41,24 +41,23 @@ export default function Application(props) {
   }
 
   const cancelInterview = function (id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    setState({...state, appointments});
-
-    const url = (`/api/appointments/` + id);
+    const url = ("/api/appointments/" + id);
     const data = {interview}
-    return (
-      axios.delete(
+    return axios.delete(
         url,
         data
       )
-    );
+      .then(() => {
+        const appointment = {
+          ...state.appointments[id],
+          interview: null
+        };
+        const appointments = {
+          ...state.appointments,
+          [id]: appointment
+        };
+        setState({...state, appointments});
+      })
   }
 
   const setDay = day => setState({ ...state, day });
