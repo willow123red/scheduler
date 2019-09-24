@@ -2,6 +2,13 @@
 
 React application that allows users to book, cancel and edit 1-hour interview appointments. Users can select the day of the week from a navigation menu, create a new appointment, enter the client name and select an interviewer from a list of available interviewers for that day. The user can also see how many appointment spots are available on any given day.
 
+## Screenshots
+
+!["Daily schedule"](https://github.com/willow123red/scheduler/blob/master/docs/daily-schedule.png?raw=true)
+
+!["New appointment"](https://github.com/willow123red/scheduler/blob/master/docs/new-appointment.png?raw=true)
+
+
 ## Tech Specs
 
 *  React
